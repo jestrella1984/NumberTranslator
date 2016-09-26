@@ -32,7 +32,9 @@ check is number is divisible by ten and use modulus to get remainder
 #include <locale>		//std::toupper , std::locale
 
 
-using namespace std;
+using namespace std; 
+
+//TO DO: Add input validation for when users enter strings instead of numbers
 
 
 const string translateNumber(uint64_t user_number){
@@ -50,7 +52,7 @@ const string translateNumber(uint64_t user_number){
 	
 	//make sure the number entered is within range.
 	if (!(user_number <= MAX_SIZE_UINT64)){
-		string error="That number is too large! The MAX is 3,875,820,019,684,212,736 ... ";
+		string error="Invalid input! Enter a positive number less than 3,875,820,019,684,212,736 ... ";
 		return error;
 	}else{
 
@@ -139,21 +141,35 @@ const string translateNumber(uint64_t user_number){
 }
 
 int main(){
+	string response;
 	char proceed;
 	uint64_t number;
 	char ch;
 	cout << "***********This program converts numbers into text.***********\n\n";
 
 	do{
-		cout << "Enter a number: ";
+		proceed = 0;
+		cout << "\nEnter a positive number: ";
 		cin >> number;
-		cout << "Translation: "<< endl;
-		cout << translateNumber(number) << endl; 
-		cout << "Press any key to continue or Enter 'q' to quit: ";
-		cin >> proceed;
+
+		
+		if (!(number > 0)){
+			cout << "\nThat's not a valid input... Press enter to try again.\n";
+			while ((ch=getchar()) != EOF && ch != '\n');
+			cin.clear();
+			cin.ignore();
+			continue;
+		}
 		while ((ch=getchar()) != EOF && ch != '\n');
-		proceed = static_cast<char>(proceed);
+		
+		cout << "Translation: "<< endl;
+		cout << translateNumber(number) << endl << endl; 
+		cout << "Press any key to continue or Enter 'q' to quit: ";
+		proceed=getchar();
+		while ((ch=getchar()) != EOF && ch != '\n');
+		
 	}while(proceed != 'q');
 	
+
 	return 0;
 }
